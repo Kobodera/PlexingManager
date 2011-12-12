@@ -1,0 +1,11 @@
+﻿INSERT INTO PlexInfos (Name, Points) VALUES ('C6 Anomaly', 480);
+INSERT INTO PlexInfos (Name, Points) VALUES ('C6 Magnetometric', 950);
+INSERT INTO PlexInfos (Name, Points) VALUES ('C6 Radar', 640);
+INSERT INTO PlexInfos (Name, Points) VALUES ('C5 Anomaly', 235);
+INSERT INTO PlexInfos (Name, Points) VALUES ('C5 Magnetometric', 675);
+INSERT INTO PlexInfos (Name, Points) VALUES ('C5 Radar', 360);
+INSERT INTO PlexInfos (Name, Points) VALUES ('Escalation 6x', 144);
+INSERT INTO PlexInfos (Name, Points) VALUES ('Escalation 8x', 192);
+INSERT INTO PlexInfos (Name, Points) VALUES ('C4 Anomaly', 100);
+INSERT INTO PlexInfos (Name, Points) VALUES ('C3 Anomaly', 50);
+INSERT INTO PlexInfos (Name, Points) VALUES ('C2 Anomaly', 18);
