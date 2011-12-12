@@ -1,0 +1,77 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+    <title>SPLU Plexing Manager 2.0</title>
+    <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body  onload="CCPEVE.requestTrust('http://splu.zapto.org/PlexingManager/')">
+    <form runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true">
+    </asp:ScriptManager>
+
+    <div class="page">
+        <div class="header">
+            <div class="title">
+                <h1>
+                    SPLU Plexing Manager 2.0
+                </h1>
+
+            </div>
+            <div class="loginDisplay">
+                <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                    <AnonymousTemplate>
+                        [ <a href="~/Anonymous/Login.aspx" ID="HeadLoginStatus" runat="server">Log In</a> ]
+                    </AnonymousTemplate>
+                    <LoggedInTemplate>
+                        Welcome <span class="bold"><asp:LoginName ID="HeadLoginName" runat="server" /></span>!
+                        [ 
+                        <asp:LinkButton ID="ChangePasswordLinkButton" runat="server" 
+                            onclick="ChangePasswordLinkButton_Click">Change Password</asp:LinkButton> ]
+                        [ <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" 
+                            LogoutText="Log Out" LogoutPageUrl="~/" 
+                            onloggingout="HeadLoginStatus_LoggingOut" /> ]
+                    </LoggedInTemplate>
+                </asp:LoginView>
+            </div>
+            <asp:Panel ID="MenuPanel" runat="server" Visible="true" Width="100%">
+                    <table style="width:100%">
+                        <tr>
+                            <td style="padding-left:8px; width:120px;">
+                                <asp:LinkButton ID="FcLinkButton" runat="server" onclick="FcLinkButton_Click">Fleet Commander</asp:LinkButton>
+                            </td>
+                            <td style="padding-left:8px; width:110px;">
+                                <asp:LinkButton ID="PlexingPeriodLinkButton" runat="server" 
+                                    onclick="PlexingPeriodLinkButton_Click">Plexing Periods</asp:LinkButton>
+                            </td>
+                            <td style="padding-left:8px;">
+                                <asp:LinkButton ID="PayoutLinkButton" runat="server" 
+                                    onclick="PayoutLinkButton_Click">Payouts</asp:LinkButton>
+                            </td>
+                        </tr>
+                    </table>
+            </asp:Panel>
+<%--            <div class="clear hideSkiplink">
+                <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
+                    <Items>
+                        <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home" />
+                        <asp:MenuItem NavigateUrl="~/About.aspx" Text="About"/>
+                    </Items>
+                </asp:Menu>
+            </div>
+--%>        </div>
+        <div class="main">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <div class="footer">
+        
+    </div>
+    </form>
+</body>
+</html>
