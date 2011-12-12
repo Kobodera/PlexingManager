@@ -10,6 +10,16 @@
                 <table>
                     <tr>
                         <td>
+                            <asp:Label ID="Label8" runat="server" Text="Character ID:"></asp:Label>
+                        </td>
+                        <td style="width: 10px;">
+                        </td>
+                        <td>
+                            <asp:Label ID="CharacterIdLabel" runat="server" Text=""></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <asp:Label ID="Label1" runat="server" Text="Character name:"></asp:Label>
                         </td>
                         <td style="width: 10px;">
@@ -40,7 +50,7 @@
                     </tr>
                     <tr>
                         <td colspan="3">
-                            <asp:CheckBox ID="BannedCheckBox" runat="server" />
+                            <asp:CheckBox ID="BannedCheckBox" runat="server" Text="Inactive" />
                         </td>
                     </tr>
                     <tr>
@@ -56,7 +66,7 @@
                         <td style="width: 10px;">
                         </td>
                         <td>
-                            <asp:TextBox ID="NewPasswordTextBox" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="NewPasswordTextBox" runat="server" TextMode="Password"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
@@ -66,7 +76,7 @@
                         <td style="width: 10px;">
                         </td>
                         <td>
-                            <asp:TextBox ID="ConfirmPasswordTextBox" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="ConfirmPasswordTextBox" runat="server" TextMode="Password"></asp:TextBox>
                         </td>
                     </tr>
                 </table>
@@ -85,18 +95,15 @@
                         <asp:CheckBox ID="AdministratorCheckBox" runat="server" Text="Administrator" />
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <asp:CheckBox ID="FCCheckBox" runat="server" Text="Fleet Commander" Visible="false" />
-                        </td>
-                    </tr>
                 </table>
             </td>
         </tr>
         <tr>
             <td colspan="3" style="text-align:right;">
-                <asp:LinkButton ID="LinkButton1" runat="server">Update</asp:LinkButton>&nbsp;
-                <asp:LinkButton ID="LinkButton2" runat="server">Cancel</asp:LinkButton>
+                <asp:LinkButton ID="UpdateLinkButton" runat="server" 
+                    onclick="UpdateLinkButton_Click">Update</asp:LinkButton>&nbsp;
+                <asp:LinkButton ID="CancelLinkButton" runat="server" 
+                    onclick="CancelLinkButton_Click">Cancel</asp:LinkButton>
             </td>
         </tr>
     </table>

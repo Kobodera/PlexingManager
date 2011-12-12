@@ -47,9 +47,13 @@
                                 <asp:LinkButton ID="PlexingPeriodLinkButton" runat="server" 
                                     onclick="PlexingPeriodLinkButton_Click">Plexing Periods</asp:LinkButton>
                             </td>
-                            <td style="padding-left:8px;">
+                            <td style="padding-left:8px;width:60px;">
                                 <asp:LinkButton ID="PayoutLinkButton" runat="server" 
                                     onclick="PayoutLinkButton_Click">Payouts</asp:LinkButton>
+                            </td>
+                            <td style="padding-left:8px;">
+                                <asp:LinkButton ID="UsersLinkButton" runat="server" 
+                                    onclick="UsersLinkButton_Click">Users</asp:LinkButton>
                             </td>
                         </tr>
                     </table>

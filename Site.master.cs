@@ -18,6 +18,7 @@ public partial class SiteMaster : System.Web.UI.MasterPage
         bool isAdmin = Page.User.IsInRole("Admin");
 
         PayoutLinkButton.Visible = isAdmin;
+        UsersLinkButton.Visible = isAdmin;
             
     }
 
@@ -40,5 +41,9 @@ public partial class SiteMaster : System.Web.UI.MasterPage
     protected void PayoutLinkButton_Click(object sender, EventArgs e)
     {
         Response.Redirect(PageReferrer.Page_Admin_Payout);
+    }
+    protected void UsersLinkButton_Click(object sender, EventArgs e)
+    {
+        Response.Redirect(PageReferrer.Page_Admin_Users);
     }
 }
