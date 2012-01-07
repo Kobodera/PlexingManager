@@ -42,6 +42,35 @@ public partial class Authenticated_Admin_EditUser : PageBase
             {
                 AdministratorCheckBox.Checked = permission.Roles.ToLower().Contains("admin");
             }
+
+            var plexInfos = from p in context.Plexes
+                           where p.Participants.Contains(user.CharacterName)
+                           orderby p.PlexingDate descending
+                           select p;
+
+            PlexesLabel.Text = plexInfos.Count().ToString();
+
+            if (plexInfos.Count() > 0)
+            {
+                LastPlexLabel.Text = plexInfos.First().PlexingDate.Value.ToShortDateString();
+            }
+
+            int occations = 0;
+            string currentDate = string.Empty;
+
+            foreach (var plexInfo in plexInfos)
+            {
+                string temp = plexInfo.PlexingDate.Value.ToShortDateString();
+
+                if (temp != currentDate)
+                {
+                    occations += 1;
+                    currentDate = temp;
+                }
+            }
+
+            OccationsLabel.Text = occations.ToString();
+
         }
     }
 

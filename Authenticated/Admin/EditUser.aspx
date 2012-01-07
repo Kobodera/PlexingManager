@@ -8,7 +8,7 @@
         <tr>
             <td style="vertical-align: top;">
                 <table>
-                    <tr>
+                    <tr valign="top";>
                         <td>
                             <asp:Label ID="Label8" runat="server" Text="Character ID:"></asp:Label>
                         </td>
@@ -97,8 +97,39 @@
                     </tr>
                 </table>
             </td>
+            <td style="width:10px;">
+            </td>
+            <td style="width:300px;" rowspan="2" valign="top">
+                <div style="width: 100%; height: 200px; overflow: auto; vertical-align: top;">
+                    <table>
+                        <tr>
+                            <td>
+                                <asp:Label ID="Label9" runat="server" Text="Plexes:"></asp:Label></td>
+                            <td style="width:10px;"></td>
+                            <td>
+                                <asp:Label ID="PlexesLabel" runat="server" Text="Plexes"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <asp:Label ID="Label10" runat="server" Text="Occations:"></asp:Label></td>
+                            <td>
+                            </td>
+                            <td>
+                                <asp:Label ID="OccationsLabel" runat="server" Text="Occations"></asp:Label></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <asp:Label ID="Label11" runat="server" Text="Last plex:"></asp:Label></td>
+                            <td>
+                            </td>
+                            <td>
+                                <asp:Label ID="LastPlexLabel" runat="server" Text="Last plex"></asp:Label></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
         </tr>
-        <tr>
+        <tr valign="top">
             <td colspan="3" style="text-align:right;">
                 <asp:LinkButton ID="UpdateLinkButton" runat="server" 
                     onclick="UpdateLinkButton_Click">Update</asp:LinkButton>&nbsp;
