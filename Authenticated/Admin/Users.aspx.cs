@@ -75,7 +75,7 @@ public partial class Authenticated_Admin_Users : PageBase
                             Roles = p.Roles
                         };
 
-            UsersGridView.DataSource = users;
+            UsersGridView.DataSource = users.OrderBy(x => x.CharacterName);
             UsersGridView.DataBind();
         }
     }
