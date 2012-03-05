@@ -1,53 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 12.375, 8.5" name="PlexingFleet">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 9.75" name="PlexingFleet">
   <DataContextMoniker Name="/PlexingFleetDataContext" />
   <nestedChildShapes>
-    <classShape Id="11fb6e11-a4d2-4af4-84c8-7cd5604af0a9" absoluteBounds="4.5, 4.25, 2, 1.3862939453125">
-      <DataClassMoniker Name="/PlexingFleetDataContext/Fleet" />
+    <classShape Id="08bdac5a-f1d3-40e7-94d6-7181587728bd" absoluteBounds="0.75, 0.75, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/PlexingFleetDataContext/Corp" />
       <nestedChildShapes>
-        <elementListCompartment Id="70fa997a-4c48-424d-8e8e-43b54d3ca31f" absoluteBounds="4.515, 4.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="d82983bc-d872-414e-a0f4-c9560dcf6309" absoluteBounds="0.765, 1.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="4ccb1c1b-22c7-437a-8dfc-8fcc917934e9" absoluteBounds="7.25, 1.625, 2, 1.3862939453125">
-      <DataClassMoniker Name="/PlexingFleetDataContext/PlexInfo" />
-      <nestedChildShapes>
-        <elementListCompartment Id="2977eea3-f9d7-4671-8e7e-43fe6ee7eb5b" absoluteBounds="7.265, 2.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="2a7a445a-7614-4c0b-b117-d66cb781acf2" absoluteBounds="4.5, 1.75, 2, 1.9631982421875">
-      <DataClassMoniker Name="/PlexingFleetDataContext/Plex" />
-      <nestedChildShapes>
-        <elementListCompartment Id="e8c77b3c-fb66-454b-a07d-d99498bb2fc0" absoluteBounds="4.515, 2.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="41ff9e13-5cc7-42ed-87cb-1003b904b8c4" absoluteBounds="1.875, 4.25, 2, 1.3862939453125">
-      <DataClassMoniker Name="/PlexingFleetDataContext/PlexingPeriodParticipant" />
-      <nestedChildShapes>
-        <elementListCompartment Id="f03ae99d-3ba8-4c55-8513-3d65560f37e4" absoluteBounds="1.8900000000000001, 4.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="aef295ea-f365-452f-943e-f6915cb0bf1b" absoluteBounds="7.25, 4.25, 2, 2.3478011067708335">
-      <DataClassMoniker Name="/PlexingFleetDataContext/PlexUser" />
-      <nestedChildShapes>
-        <elementListCompartment Id="31939068-d90f-4688-bc47-519254f97290" absoluteBounds="7.265, 4.71, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="94d884b5-938c-4bb0-ba1a-48148d9300e2" absoluteBounds="10.125, 4.625, 2, 1.5785953776041666">
+    <classShape Id="3896dcd1-f33d-4880-8584-a256a2e06377" absoluteBounds="3.75, 0.75, 2, 1.5785953776041666">
       <DataClassMoniker Name="/PlexingFleetDataContext/Rule" />
       <nestedChildShapes>
-        <elementListCompartment Id="e771616c-1502-49b8-9772-567528f5d1b8" absoluteBounds="10.14, 5.085, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="0bea16bc-8b29-4e96-8b4c-629831c704ff" absoluteBounds="3.765, 1.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="ffff498c-57af-4e8d-b1b6-e9670225b68e" absoluteBounds="10.125, 2, 2, 1.1939925130208333">
-      <DataClassMoniker Name="/PlexingFleetDataContext/PlexUserRole" />
+    <classShape Id="108497e4-ef0b-47f8-8fd5-0dff1d5a6d83" absoluteBounds="0.75, 3.75, 2, 1.3862939453125005">
+      <DataClassMoniker Name="/PlexingFleetDataContext/Fleet" />
       <nestedChildShapes>
-        <elementListCompartment Id="e805d451-83b1-4b83-8f11-b3eb66627631" absoluteBounds="10.14, 2.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="78cbc35b-15ed-4d40-b3a1-eb33a0c5022d" absoluteBounds="0.765, 4.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="bc21193c-b149-41a7-96c3-ab0cf08eb0e4" absoluteBounds="1.875, 1.5, 2, 2.5401025390625">
+    <classShape Id="b26ffd97-a6c1-466c-9372-c511f70579bf" absoluteBounds="3.75, 3.75, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/PlexingFleetDataContext/Plex" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c6180588-552a-4b59-85dc-a0fcd0f72d9d" absoluteBounds="3.765, 4.21, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9a6cd414-a04e-4898-a619-411647ac87e9" absoluteBounds="6.75, 0.75, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/PlexingFleetDataContext/PlexInfo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fddf9b30-f30b-4c34-bdbb-3d8ea199dedf" absoluteBounds="6.765, 1.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9925e70a-1a0b-4881-beb3-28af017aa49b" absoluteBounds="0.75, 6.75, 2, 2.7324039713541666">
       <DataClassMoniker Name="/PlexingFleetDataContext/PlexingPeriod" />
       <nestedChildShapes>
-        <elementListCompartment Id="fb962a63-a7ef-480a-b699-49d941be0d1c" absoluteBounds="1.8900000000000001, 1.96, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="2516f3ab-2595-445f-9131-d8ff7a62aa9f" absoluteBounds="0.765, 7.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="098af4c4-ecbf-46ab-982c-ddd4a2a9bcbf" absoluteBounds="6.75, 3.75, 2, 1.193992513020834">
+      <DataClassMoniker Name="/PlexingFleetDataContext/PlexUserRole" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5468ed33-24cf-4923-b875-c9148905d629" absoluteBounds="6.765, 4.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="24c82fd3-463d-4a74-9fc2-dbca6e551a28" absoluteBounds="3.75, 6.75, 2, 2.3478011067708344">
+      <DataClassMoniker Name="/PlexingFleetDataContext/PlexUser" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5b61a231-2780-4e88-b12e-5b885a468225" absoluteBounds="3.765, 7.21, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

@@ -166,6 +166,9 @@ public partial class Authenticated_Admin_Payout : PageBase
                                 where p.PlexingPeriodId == plexingPeriodId
                                 select new { pi.Points };
 
+                if (plexinfos.Count() == 0)
+                    return 0;
+
                 int? points = plexinfos.Sum(x => x.Points);
 
                 return points.HasValue ? points.Value : 0;
@@ -180,10 +183,24 @@ public partial class Authenticated_Admin_Payout : PageBase
         using (PlexingFleetDataContext context = new PlexingFleetDataContext(WebConfigurationManager.ConnectionStrings["PlexManagerConnectionString"].ConnectionString))
         {
             var plexingPeriods = from p in context.PlexingPeriods
+                                 join c in context.Corps on p.CorpId equals c.CorpId
                                  orderby p.FromDate descending
-                                 select new PlexingPeriodListInfo() { PlexingPeriodId = p.PlexingPeriodId, FromDate = p.FromDate, ToDate = p.ToDate };
+                                 select new PlexingPeriodListInfo() { PlexingPeriodId = p.PlexingPeriodId, FromDate = p.FromDate, ToDate = p.ToDate, CorpId = p.CorpId, CorpTag = c.CorpTag};
 
-            List<PlexingPeriodListInfo> periods = plexingPeriods.ToList<PlexingPeriodListInfo>();
+            List<PlexingPeriodListInfo> periods = new List<PlexingPeriodListInfo>();// = plexingPeriods.ToList<PlexingPeriodListInfo>();
+
+            foreach (var period in plexingPeriods)
+            {
+                if (IsSuperAdmin)
+                {
+                    periods.Add(period);
+                }
+                else
+                {
+                    if (period.CorpId == CorpId)
+                        periods.Add(period);
+                }
+            }
 
             foreach (var period in periods)
             {
@@ -224,9 +241,9 @@ public partial class Authenticated_Admin_Payout : PageBase
                     LastPeriodId = PlexingPeriodId;
                 }
             }
+            
+            ShowEndPeriodButton(!context.PlexingPeriods.First(x => x.PlexingPeriodId == PlexingPeriodId).ToDate.HasValue);
         }
-
-        ShowEndPeriodButton(LastPeriodId == PlexingPeriodId);
     }
 
     private void FillPlexingPeriodData(int plexingPeriodId)
@@ -239,7 +256,7 @@ public partial class Authenticated_Admin_Payout : PageBase
 
             if (pp != null)
             {
-                PlexingPeriodDateLabel.Text = GetPlexingPeriod(pp.FromDate, pp.ToDate);
+                PlexingPeriodDateLabel.Text = GetPlexingPeriodTitle(pp.FromDate, pp.ToDate, GetCorpTag(pp.CorpId));
             }
         }
 
@@ -249,6 +266,7 @@ public partial class Authenticated_Admin_Payout : PageBase
         PlexingPeriodInfoGridView.DataSource = infos;
         PlexingPeriodInfoGridView.DataBind();
     }
+
 
     private List<PlexingPeriodInfo> LoadPlexingPeriodData(int plexingPeriodId)
     {
@@ -265,11 +283,11 @@ public partial class Authenticated_Admin_Payout : PageBase
 
             foreach (var plexPointInfo in plexPointinfos)
             {
-                totalPoints += plexPointInfo.Points.Value;
+                totalPoints += plexPointInfo.Points;
 
                 string[] pilots = plexPointInfo.Participants.Split(',');
 
-                double pilotPoints = ((double)plexPointInfo.Points.Value) / pilots.Count();
+                double pilotPoints = ((double)plexPointInfo.Points) / pilots.Count();
 
                 foreach (string pilot in pilots)
                 {
@@ -313,7 +331,7 @@ public partial class Authenticated_Admin_Payout : PageBase
 
             if (pp != null)
             {
-                PlexingPeriodDateLabel.Text = GetPlexingPeriod(pp.FromDate, pp.ToDate);
+                PlexingPeriodDateLabel.Text = GetPlexingPeriod(pp.FromDate, pp.ToDate, GetCorpTag(pp.CorpId));
             }
         }
 
@@ -332,7 +350,7 @@ public partial class Authenticated_Admin_Payout : PageBase
 
             var plexPointinfos = from p in context.Plexes
                                  join pi in context.PlexInfos on p.PlexInfoId equals pi.PlexId
-                                 where p.PlexingPeriodId == plexingPeriodId && p.PlexingDate >= date && p.PlexingDate <= lastDate
+                                 where p.PlexingPeriodId == plexingPeriodId && p.PlexingDate >= date && p.PlexingDate <= lastDate //&& p.CorpId == CorpId
                                  select new { p.PlexId, p.Participants, pi.Points };
 
             Dictionary<string, PlexingPeriodInfo> dict = new Dictionary<string, PlexingPeriodInfo>();
@@ -341,10 +359,10 @@ public partial class Authenticated_Admin_Payout : PageBase
 
             foreach (var plexPointInfo in plexPointinfos)
             {
-                totalPoints += plexPointInfo.Points.Value;
+                totalPoints += plexPointInfo.Points;
                 string[] pilots = plexPointInfo.Participants.Split(',');
 
-                double pilotPoints = ((double)plexPointInfo.Points.Value) / pilots.Count();
+                double pilotPoints = ((double)plexPointInfo.Points) / pilots.Count();
 
                 foreach (string pilot in pilots)
                 {
@@ -367,7 +385,7 @@ public partial class Authenticated_Admin_Payout : PageBase
         }
     }
 
-    protected string GetPlexingPeriod(DateTime? fromDate, DateTime? toDate)
+    protected string GetPlexingPeriod(DateTime? fromDate, DateTime? toDate, string corpTag)
     {
         if (toDate.HasValue)
         {
@@ -375,7 +393,19 @@ public partial class Authenticated_Admin_Payout : PageBase
         }
         else
         {
-            return string.Format("{0:d} - ", fromDate);
+            return string.Format("{0:d} - ({1})", fromDate, corpTag);
+        }
+    }
+
+    private string GetPlexingPeriodTitle(DateTime? fromDate, DateTime? toDate, string corpTag)
+    {
+        if (toDate.HasValue)
+        {
+            return string.Format("{0:d} - {1:d} ({2})", fromDate, toDate, corpTag);
+        }
+        else
+        {
+            return string.Format("{0:d} - ({1})", fromDate, corpTag);
         }
     }
 
@@ -406,10 +436,13 @@ public partial class Authenticated_Admin_Payout : PageBase
     {
         if (e.CommandName == "DisplayPlexingPeriod")
         {
-            LoadPlexingPeriodPayoutData(e.CommandArgument.ToString().ToInt());
-            FillPlexingPeriodData(e.CommandArgument.ToString().ToInt());
-            ShowEndPeriodButton(LastPeriodId == e.CommandArgument.ToString().ToInt());
-            PlexingPeriodInfoUpdatePanel.Update();
+            using (PlexingFleetDataContext context = new PlexingFleetDataContext(ConnectionString))
+            {
+                LoadPlexingPeriodPayoutData(e.CommandArgument.ToString().ToInt());
+                FillPlexingPeriodData(e.CommandArgument.ToString().ToInt());
+                ShowEndPeriodButton(!context.PlexingPeriods.First(x => x.PlexingPeriodId == e.CommandArgument.ToString().ToInt()).ToDate.HasValue);
+                PlexingPeriodInfoUpdatePanel.Update();
+            }
         }
     }
 
@@ -450,13 +483,9 @@ public partial class Authenticated_Admin_Payout : PageBase
                 period.ToDate = DateTime.Now;
             }
 
-            PlexingPeriod newPeriod = new PlexingPeriod()
-            {
-                FromDate = DateTime.Now
-            };
-
-            context.PlexingPeriods.InsertOnSubmit(newPeriod);
             context.SubmitChanges();
+
+            ShowEndPeriodButton(false);
         }
     }
 }

@@ -87,6 +87,24 @@ public partial class Anonymous_Register : PageBase
 
                 context.PlexUsers.InsertOnSubmit(plexUser);
 
+
+                Corp corp = context.Corps.FirstOrDefault(x => x.CorpId == CorpId);
+
+                //Check to see if the person registring belongs to a corp that have not previously been added
+                if (corp == null)
+                {
+                    corp = new Corp()
+                    {
+                        CorpId = CorpId,
+                        CorpName = CorpName,
+                        AllianceId = AllianceId,
+                        AllianceName = AllianceName,
+                        Enabled = false
+                    };
+
+                    context.Corps.InsertOnSubmit(corp);
+                }
+
                 context.SubmitChanges();
 
                 Response.Redirect(PageReferrer.Page_Login);

@@ -31,7 +31,7 @@ public partial class Authenticated_Admin_EditUser : PageBase
                 CharacterNameLabel.Text = user.CharacterName;
                 CorporationLabel.Text = user.CorpName;
                 AllianceLabel.Text = user.AllianceName;
-                BannedCheckBox.Checked = user.Enabled.HasValue ? !user.Enabled.Value : false;
+                BannedCheckBox.Checked = !user.Enabled;
             }
 
             var userPermissions = from up in context.PlexUserRoles

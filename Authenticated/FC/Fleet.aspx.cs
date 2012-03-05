@@ -24,25 +24,30 @@ public partial class Authenticated_FC_Fleet : PageBase
     {
         get
         {
-            if (ViewState["VS_PLEXING_PERIOD_ID"] == null)
+            if (ViewState["VS_PLEXING_PERIOD_ID"] == null || ((int)ViewState["VS_PLEXING_PERIOD_ID"]) == -1)
             {
                 using (PlexingFleetDataContext context = new PlexingFleetDataContext(WebConfigurationManager.ConnectionStrings["PlexManagerConnectionString"].ConnectionString))
                 {
-                    PlexingPeriod period = context.PlexingPeriods.FirstOrDefault(x => x.ToDate == null);
-
-                    //No active plexing period, create a new period
-                    if (period == null)
+                    if (PlexCorpDropDownList.Items.Count > 0 && !string.IsNullOrEmpty(PlexCorpDropDownList.SelectedValue))
                     {
-                        period = new PlexingPeriod()
+                        PlexingPeriod period = context.PlexingPeriods.FirstOrDefault(x => x.ToDate == null && x.CorpId == int.Parse(PlexCorpDropDownList.SelectedValue));
+
+                        //No active plexing period, create a new period
+                        if (period == null)
                         {
-                            FromDate = DateTime.UtcNow
-                        };
+                            period = new PlexingPeriod()
+                            {
+                                FromDate = DateTime.UtcNow,
+                                CorpId = CorpId
+                            };
 
-                        context.PlexingPeriods.InsertOnSubmit(period);
-                        context.SubmitChanges();
+                            context.PlexingPeriods.InsertOnSubmit(period);
+                            context.SubmitChanges();
+                        }
+                        ViewState["VS_PLEXING_PERIOD_ID"] = period.PlexingPeriodId;
                     }
-
-                    ViewState["VS_PLEXING_PERIOD_ID"] = period.PlexingPeriodId;
+                    else
+                        ViewState["VS_PLEXING_PERIOD_ID"] = -1;
                 }
             }
 
@@ -58,9 +63,15 @@ public partial class Authenticated_FC_Fleet : PageBase
             {
                 using (PlexingFleetDataContext context = new PlexingFleetDataContext(WebConfigurationManager.ConnectionStrings["PlexManagerConnectionString"].ConnectionString))
                 {
-                    PlexingPeriod period = context.PlexingPeriods.FirstOrDefault(x => x.PlexingPeriodId == PlexingPeriodId);
+                    if (PlexingPeriodId != -1)
+                    {
+                        PlexingPeriod period = context.PlexingPeriods.FirstOrDefault(x => x.PlexingPeriodId == PlexingPeriodId);
 
-                    ViewState["VS_PLEXING_PERIOD_FROM"] = period.FromDate;
+                        ViewState["VS_PLEXING_PERIOD_FROM"] = period.FromDate;
+                    }
+                    else
+                        ViewState["VS_PLEXING_PERIOD_FROM"] = DateTime.Now;
+
                 }
             }
 
@@ -82,6 +93,25 @@ public partial class Authenticated_FC_Fleet : PageBase
             {
                 PlexInfoDropDownList.Items.Add(new ListItem(plex.Name, plex.PlexId.ToString()));
             }
+
+            var corps = (from c in context.Corps
+                         where c.Enabled
+                         orderby c.CorpName
+                         select c).Distinct();
+
+            foreach (var corp in corps)
+            {
+                if (string.IsNullOrEmpty(corp.CorpTag))
+                {
+                    PlexCorpDropDownList.Items.Add(new ListItem(corp.CorpName.Substring(0, 10), corp.CorpId.ToString()));
+                }
+                else
+                {
+                    PlexCorpDropDownList.Items.Add(new ListItem(corp.CorpTag, corp.CorpId.ToString()));
+                }
+            }
+
+            PlexCorpDropDownList.Items.FindByValue(CorpId.ToString()).Selected = true;
         }
     }
 
@@ -111,12 +141,33 @@ public partial class Authenticated_FC_Fleet : PageBase
         {
             var p = from plexes in context.Plexes
                     join plexInfo in context.PlexInfos on plexes.PlexInfoId equals plexInfo.PlexId
-                    where plexes.FCId == CharacterId && plexes.PlexingPeriodId == PlexingPeriodId
+                    join corps in context.Corps on plexes.CorpId equals corps.CorpId
+                    where plexes.FCId == CharacterId && plexes.PlexingDate >= GetCurrentPlexingPeriodDate()
                     orderby plexes.PlexingDate descending
-                    select new PlexListInfo() { PlexId = plexes.PlexId, PlexName = plexInfo.Name, PlexingDate = plexes.PlexingDate.Value, Participants = plexes.Participants, Points = plexInfo.Points.Value };
+                    select new PlexListInfo() { PlexId = plexes.PlexId, PlexName = plexInfo.Name, PlexingDate = plexes.PlexingDate.Value, Participants = plexes.Participants, Points = plexInfo.Points, CorpTag = corps.CorpTag };
 
             PlexGridView.DataSource = p;
             PlexGridView.DataBind();
+        }
+    }
+
+    private DateTime GetCurrentPlexingPeriodDate()
+    {
+        using (PlexingFleetDataContext context = new PlexingFleetDataContext(WebConfigurationManager.ConnectionStrings["PlexManagerConnectionString"].ConnectionString))
+        {
+            DateTime result = DateTime.Now;
+            var plexingPeriods = from p in context.PlexingPeriods
+                                 where p.ToDate == null
+                                 orderby p.FromDate
+                                 select p;
+
+            foreach (var period in plexingPeriods)
+            {
+                if (period.FromDate < result)
+                    result = period.FromDate.Value;
+            }
+
+            return result;
         }
     }
 
@@ -170,7 +221,16 @@ public partial class Authenticated_FC_Fleet : PageBase
     {
         int plexInfoId = PlexInfoDropDownList.SelectedValue.ToInt();
 
-        Plex plex = new Plex() { FCId = CharacterId, PlexInfoId = plexInfoId, PlexingDate = DateTime.UtcNow, PlexingPeriodId = PlexingPeriodId, Participants = GetPilots() };
+        Plex plex;
+
+        if (PlexCorpDropDownList.SelectedValue.ToInt() != CorpId)
+        {
+            plex = new Plex() { FCId = CharacterId, PlexInfoId = plexInfoId, PlexingDate = DateTime.UtcNow, PlexingPeriodId = GetPlexingPeriodId(PlexCorpDropDownList.SelectedValue.ToInt()), Participants = GetPilots(), CorpId = int.Parse(PlexCorpDropDownList.SelectedValue) };
+        }
+        else
+        {
+            plex = new Plex() { FCId = CharacterId, PlexInfoId = plexInfoId, PlexingDate = DateTime.UtcNow, PlexingPeriodId = PlexingPeriodId, Participants = GetPilots(), CorpId = int.Parse(PlexCorpDropDownList.SelectedValue) };
+        }
 
         using (PlexingFleetDataContext context = new PlexingFleetDataContext(WebConfigurationManager.ConnectionStrings["PlexManagerConnectionString"].ConnectionString))
         {
@@ -179,6 +239,15 @@ public partial class Authenticated_FC_Fleet : PageBase
         }
 
         FillPlexes();
+    }
+
+    private int GetPlexingPeriodId(int corpId)
+    {
+        using (PlexingFleetDataContext context = new PlexingFleetDataContext(WebConfigurationManager.ConnectionStrings["PlexManagerConnectionString"].ConnectionString))
+        {
+            PlexingPeriod period = context.PlexingPeriods.FirstOrDefault(x => x.ToDate == null && x.CorpId == int.Parse(PlexCorpDropDownList.SelectedValue));
+            return period.PlexingPeriodId;
+        }
     }
 
     private string GetPilots()

@@ -15,10 +15,11 @@ public partial class SiteMaster : System.Web.UI.MasterPage
 
     private void ShowMenu()
     {
-        bool isAdmin = Page.User.IsInRole("Admin");
+        bool isAdmin = Page.User.IsInRole("Admin") || Page.User.IsInRole("Super");
 
         PayoutLinkButton.Visible = isAdmin;
         UsersLinkButton.Visible = isAdmin;
+        EfficiencyLinkButton.Visible = isAdmin;
             
     }
 
@@ -45,5 +46,10 @@ public partial class SiteMaster : System.Web.UI.MasterPage
     protected void UsersLinkButton_Click(object sender, EventArgs e)
     {
         Response.Redirect(PageReferrer.Page_Admin_Users);
+    }
+
+    protected void EfficiencyLinkButton_Click(object sender, EventArgs e)
+    {
+        Response.Redirect(PageReferrer.Page_PlexingPeriod_Efficiency);
     }
 }

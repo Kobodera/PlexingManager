@@ -11,6 +11,8 @@ public class PlexingPeriodListInfo
     public int PlexingPeriodId { get; set; }
     public DateTime? FromDate { get; set; }
     public DateTime? ToDate { get; set; }
+    public int CorpId { get; set; }
+    public string CorpTag { get; set; }
 
     public List<DateInfos> DateInfos { get; set; }
 

@@ -194,7 +194,7 @@ public partial class Authenticated_FC_SelectMembers : PageBase
             else
             {
                 var users = from u in context.PlexUsers
-                            where u.CharacterName.Contains(SearchTextBox.Text) && (u.Enabled.Value == true || !u.Enabled.HasValue)
+                            where u.CharacterName.Contains(SearchTextBox.Text) && (u.Enabled)
                             orderby u.CharacterName
                             select u;
 

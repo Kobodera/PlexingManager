@@ -106,13 +106,13 @@ public partial class Anonymous_Login : PageBase
 
             if (user.Password == FormsAuthentication.HashPasswordForStoringInConfigFile(password, "md5"))
             {
-                if (!user.Enabled.HasValue || user.Enabled.Value)
+                if (user.Enabled)
                 {
                     CharacterId = user.CharacterId;
                     CharacterName = user.CharacterName;
-                    CorpId = user.CorpId.Value;
+                    CorpId = user.CorpId;
                     CorpName = user.CorpName;
-                    AllianceId = user.AllianceId.Value;
+                    AllianceId = user.AllianceId;
                     AllianceName = user.AllianceName;
                     SolarSystemName = "Uknown";
 

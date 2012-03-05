@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Installation Guide</title>
+</head>
+<body>
+<h1>Installation Guide</h1>
+<p>This guide is designed to allow you to set the plexing manager up. It will require you to have at least some knowledge of setting up a web server. I personally use the Aprelium Abyss web server
+and will add a link to it in this document. You will have to set it up yourself thought which is not that hard.</p>
+
+<h2>Programs and links</h2>
+    <p>This part contains links to the software you may need to get things running.</p>
+
+<h3>Aprelium web server 1x</h3>
+<p>Aprelium have a free personal web server capable of serving up to .Net 3.5 pages. It is reasonably easy to set up and maintain. </p>
+<p><a href="http://www.aprelium.com/abyssws/download.php">Abyss web server</a></p>
+
+<h3>Visual Web Developer Express</h3>
+<p>Microsofts free web development environment. It is fairly limited and I am unsure if it is enough to run this project. It MAY work however so you could give it a try.</p>
+<p><a href="http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-web-developer-express">Visual Web Developer 2010 Express</a></p>
+
+<h3>Microsoft SQL Server 2008 Express R2</h3>
+<p>Microsofts free SQL Server. There are a couple of versions available, make sure that you get the version with tools since it will contain the Management console which will make
+your life a lot easier</p>
+<p><a href="http://www.microsoft.com/sqlserver/en/us/editions/express.aspx">SQL Server 2008 Express</a></p>
+
+<h2>SQL Server setup</h2>
+<p>Install SQL server express on the intended server. Unless you use a domain I would suggest setting it up as Mixed Mode so that it can handle both windows authentication but also username password.</p>
+
+<p>The default version of the plexingmanager required a user PlexManager, but if you wish to use a diffrent user that is up to you.</p>
+
+<ol>
+<li>Create a new Database. By default this should be called PlexManager, but the name is up to you.</li>
+<li>Create a new user, PlexManager and give that user read/write permissions to the PlexManager database.</li>
+<li>Run the PlexManagerDB.sql script on the PlexManager database to set the tables up.</li>
+<li>Run the BasicData.sql script on the PlexManager database to add basic plex data to the database.</li>
+</ol>
+</body>
+</html>

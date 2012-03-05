@@ -36,6 +36,10 @@
                 <table width="100%">
                     <tr>
                         <td>
+                            <asp:DropDownList ID="PlexCorpDropDownList" runat="server">
+                            </asp:DropDownList>&nbsp;
+                        </td>
+                        <td>
                             <asp:DropDownList ID="PlexInfoDropDownList" runat="server">
                             </asp:DropDownList>&nbsp;<asp:LinkButton ID="AddPlexLinkButton" runat="server" 
                                 onclick="AddPlexLinkButton_Click">Add plex</asp:LinkButton>
@@ -71,6 +75,9 @@
                                             <HeaderStyle HorizontalAlign="Left" />
                                             </asp:BoundField>
                                             <asp:BoundField DataField="Participants" HeaderText="Participants" >
+                                            <HeaderStyle HorizontalAlign="Left" />
+                                            </asp:BoundField>
+                                            <asp:BoundField DataField="CorpTag" HeaderText="Corp" >
                                             <HeaderStyle HorizontalAlign="Left" />
                                             </asp:BoundField>
                                             <asp:TemplateField ShowHeader="False">

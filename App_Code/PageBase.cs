@@ -196,7 +196,15 @@ public class PageBase : System.Web.UI.Page
     {
         get
         {
-            return User.IsInRole("Admin");
+            return User.IsInRole("Admin") || User.IsInRole("Super");
+        }
+    }
+
+    public bool IsSuperAdmin
+    {
+        get
+        {
+            return User.IsInRole("Super");
         }
     }
 
@@ -207,6 +215,20 @@ public class PageBase : System.Web.UI.Page
             return WebConfigurationManager.ConnectionStrings["PlexManagerConnectionString"].ConnectionString;
         }
     }
+
+    public string GetCorpTag(int corpId)
+    {
+        using (PlexingFleetDataContext context = new PlexingFleetDataContext(WebConfigurationManager.ConnectionStrings["PlexManagerConnectionString"].ConnectionString))
+        {
+            var corp = context.Corps.FirstOrDefault(x => x.CorpId == corpId);
+
+            if (corp != null)
+                return corp.CorpTag;
+        }
+
+        return string.Empty;
+    }
+
 
     //    EVE_CHARNAME - Kobodera
     //EVE_CORPNAME - Selectus Pravus Lupus

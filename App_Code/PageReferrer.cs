@@ -26,6 +26,7 @@ public class PageReferrer
     public static string Page_FC_SelectMembers = "~/Authenticated/FC/SelectMembers.aspx";
 
     public static string Page_PlexingPeriod_PlexingPeriod = "~/Authenticated/PlexingPeriod/PlexingPeriod.aspx";
+    public static string Page_PlexingPeriod_Efficiency = "~/Authenticated/PlexingPeriod/Efficiency.aspx";
 
     public static string Page_User_ChangePassword = "~/Authenticated/User/ChangePassword.aspx";
     public static string Page_User_PlexingPeriod = "~/Authenticated/User/PlexingPeriod.aspx";

@@ -1,46 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PlexManager" Class="PlexingFleetDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=192.168.2.2\SQLEXPRESS;Initial Catalog=PlexManager;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PlexManagerConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Fleets" Member="Fleets">
-    <Type Name="Fleet">
-      <Column Name="FcId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Participants" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Comments" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.PlexInfos" Member="PlexInfos">
-    <Type Name="PlexInfo">
-      <Column Name="PlexId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="Points" Type="System.Int32" DbType="Int" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Plexes" Member="Plexes">
-    <Type Name="Plex">
-      <Column Name="PlexId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="FCId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PlexInfoId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PlexingPeriodId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Participants" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="PlexingDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.PlexingPeriodParticipants" Member="PlexingPeriodParticipants">
-    <Type Name="PlexingPeriodParticipant">
-      <Column Name="PlexingPeriodId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="CharacterName" Type="System.String" DbType="NVarChar(250) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Points" Type="System.Double" DbType="Float" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.PlexUsers" Member="PlexUsers">
-    <Type Name="PlexUser">
-      <Column Name="CharacterId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="CharacterName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="Password" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="CorpId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="CorpName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="AllianceId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="AllianceName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="Enabled" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PlexManagerDevelopment" Class="PlexingFleetDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=mserv\SqlExpress;Initial Catalog=PlexManagerDevelopment;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PlexManagerDevelopmentConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Corps" Member="Corps">
+    <Type Name="Corp">
+      <Column Name="CorpId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CorpName" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="CorpTag" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="AllianceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AllianceName" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="AllianceTag" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Enabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.Rules" Member="Rules">
@@ -51,10 +19,30 @@
       <Column Name="Allowed" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.PlexUserRoles" Member="PlexUserRoles">
-    <Type Name="PlexUserRole">
-      <Column Name="CharacterId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Roles" Type="System.String" DbType="NVarChar(2000) NOT NULL" CanBeNull="false" />
+  <Table Name="dbo.Fleets" Member="Fleets">
+    <Type Name="Fleet">
+      <Column Name="FcId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Participants" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Comments" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Plexes" Member="Plexes">
+    <Type Name="Plex">
+      <Column Name="PlexId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FCId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlexInfoId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PlexingPeriodId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Participants" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PlexingDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CorpId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PlexInfos" Member="PlexInfos">
+    <Type Name="PlexInfo">
+      <Column Name="PlexId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Points" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CorpId" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.PlexingPeriods" Member="PlexingPeriods">
@@ -68,6 +56,25 @@
       <Column Name="IskPerPoint" Type="System.Double" DbType="Float" CanBeNull="true" />
       <Column Name="IskPerPointAfterTax" Type="System.Double" DbType="Float" CanBeNull="true" />
       <Column Name="Points" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="CorpId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PlexUserRoles" Member="PlexUserRoles">
+    <Type Name="PlexUserRole">
+      <Column Name="CharacterId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Roles" Type="System.String" DbType="NVarChar(2000) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PlexUsers" Member="PlexUsers">
+    <Type Name="PlexUser">
+      <Column Name="CharacterId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CharacterName" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="CorpId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CorpName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="AllianceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AllianceName" Type="System.String" DbType="NVarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Enabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

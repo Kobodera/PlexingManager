@@ -171,7 +171,7 @@ public partial class Authenticated_PlexingPeriod_PlexingPeriod : PageBase
             {
                 string[] pilots = plexPointInfo.Participants.Split(',');
 
-                double pilotPoints = ((double)plexPointInfo.Points.Value) / pilots.Count();
+                double pilotPoints = ((double)plexPointInfo.Points) / pilots.Count();
                 totalpoints += pilotPoints;
 
                 result.Add(new MyPlexingPeriodInfo() { PlexId = plexPointInfo.PlexId, PlexName = plexPointInfo.Name, PlexingDate = plexPointInfo.PlexingDate.Value, FC = plexPointInfo.CharacterName, Points = pilotPoints, Participants = pilots.Count() });
@@ -244,7 +244,7 @@ public partial class Authenticated_PlexingPeriod_PlexingPeriod : PageBase
             {
                 string[] pilots = plexPointInfo.Participants.Split(',');
 
-                double pilotPoints = ((double)plexPointInfo.Points.Value) / pilots.Count();
+                double pilotPoints = ((double)plexPointInfo.Points) / pilots.Count();
 
                 totalpoints += pilotPoints;
 
