@@ -15,6 +15,8 @@ public class PlexListInfo
     public string Participants { get; set; }
     public double Payout { get; set; }
     public string CorpTag { get; set; }
+    public string FCName { get; set; }
+
 
     public double PointsAwarded
     {

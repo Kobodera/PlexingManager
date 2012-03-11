@@ -182,6 +182,7 @@ public partial class Authenticated_FC_SelectMembers : PageBase
             if (SearchTextBox.Text.Trim() == string.Empty)
             {
                 var users = from u in context.PlexUsers
+                            where u.Enabled
                             orderby u.CharacterName
                             select u;
 

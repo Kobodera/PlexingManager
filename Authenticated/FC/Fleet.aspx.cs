@@ -140,11 +140,12 @@ public partial class Authenticated_FC_Fleet : PageBase
         using (PlexingFleetDataContext context = new PlexingFleetDataContext(WebConfigurationManager.ConnectionStrings["PlexManagerConnectionString"].ConnectionString))
         {
             var p = from plexes in context.Plexes
+                    join plexUsers in context.PlexUsers on plexes.FCId equals plexUsers.CharacterId
                     join plexInfo in context.PlexInfos on plexes.PlexInfoId equals plexInfo.PlexId
                     join corps in context.Corps on plexes.CorpId equals corps.CorpId
-                    where plexes.FCId == CharacterId && plexes.PlexingDate >= GetCurrentPlexingPeriodDate()
+                    where (IsAdmin && plexes.PlexingDate >= GetCurrentPlexingPeriodDate()) || (plexes.FCId == CharacterId && plexes.PlexingDate >= GetCurrentPlexingPeriodDate())
                     orderby plexes.PlexingDate descending
-                    select new PlexListInfo() { PlexId = plexes.PlexId, PlexName = plexInfo.Name, PlexingDate = plexes.PlexingDate.Value, Participants = plexes.Participants, Points = plexInfo.Points, CorpTag = corps.CorpTag };
+                    select new PlexListInfo() { PlexId = plexes.PlexId, FCName = plexUsers.CharacterName, PlexName = plexInfo.Name, PlexingDate = plexes.PlexingDate.Value, Participants = plexes.Participants, Points = plexInfo.Points, CorpTag = corps.CorpTag };
 
             PlexGridView.DataSource = p;
             PlexGridView.DataBind();
@@ -168,6 +169,18 @@ public partial class Authenticated_FC_Fleet : PageBase
             }
 
             return result;
+        }
+    }
+
+    protected string FormatPlex(string plexName, string FCName)
+    {
+        if (IsAdmin)
+        {
+            return string.Format("{0}<br />({1})", plexName, FCName);
+        }
+        else
+        {
+            return plexName;
         }
     }
 

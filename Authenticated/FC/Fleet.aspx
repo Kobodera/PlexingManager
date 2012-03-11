@@ -35,7 +35,7 @@
             <td style="vertical-align: top;">
                 <table width="100%">
                     <tr>
-                        <td>
+                        <td style="width:80px;">
                             <asp:DropDownList ID="PlexCorpDropDownList" runat="server">
                             </asp:DropDownList>&nbsp;
                         </td>
@@ -63,7 +63,7 @@
                                             <asp:TemplateField HeaderText="Plex" ShowHeader="False" HeaderStyle-Width="70px">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="false" 
-                                                        CommandName="EditPlex" Text='<%# Eval("PlexName") %>' 
+                                                        CommandName="EditPlex" Text='<%# FormatPlex(Eval("PlexName").ToString(), Eval("FCName").ToString()) %>' 
                                                         CommandArgument='<%# Eval("PlexId") %>' onclick="LinkButton1_Click"></asp:LinkButton>
                                                 </ItemTemplate>
                                                 <HeaderStyle HorizontalAlign="Left" />
