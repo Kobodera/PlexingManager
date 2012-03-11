@@ -36,6 +36,8 @@
                         </td>
                         <td>
                             <asp:Label ID="CorporationLabel" runat="server" Text=""></asp:Label>
+                            <asp:DropDownList ID="CorporationDropDownList" runat="server">
+                            </asp:DropDownList>
                         </td>
                     </tr>
                     <tr>

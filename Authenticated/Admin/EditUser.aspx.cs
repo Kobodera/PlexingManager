@@ -19,6 +19,32 @@ public partial class Authenticated_Admin_EditUser : PageBase
         }
     }
 
+    private void LoadCorporationInfo(int corporationId)
+    {
+        using (PlexingFleetDataContext context = new PlexingFleetDataContext(ConnectionString))
+        {
+            var corps = from c in context.Corps
+                        orderby c.CorpName
+                        select c;
+
+            CorporationDropDownList.Items.Clear();
+
+            foreach (var corp in corps)
+            {
+                ListItem item = new ListItem(corp.CorpName, corp.CorpId.ToString());
+                CorporationDropDownList.Items.Add(item);
+            }
+
+
+            ListItem corporation = CorporationDropDownList.Items.FindByValue(corporationId.ToString());
+
+            if (corporation != null)
+            {
+                corporation.Selected = true;
+            }
+        }
+    }
+
     private void LoadCharacterInfo(int characterId)
     {
         using (PlexingFleetDataContext context = new PlexingFleetDataContext(ConnectionString))
@@ -27,9 +53,10 @@ public partial class Authenticated_Admin_EditUser : PageBase
 
             if (user != null)
             {
+                LoadCorporationInfo(user.CorpId);
                 CharacterIdLabel.Text = user.CharacterId.ToString();
                 CharacterNameLabel.Text = user.CharacterName;
-                CorporationLabel.Text = user.CorpName;
+                //CorporationLabel.Text = user.CorpName;
                 AllianceLabel.Text = user.AllianceName;
                 BannedCheckBox.Checked = !user.Enabled;
             }
@@ -120,6 +147,19 @@ public partial class Authenticated_Admin_EditUser : PageBase
 
             user.Enabled = !BannedCheckBox.Checked;
 
+            if (user.CorpId != CorporationDropDownList.SelectedValue.ToInt())
+            {
+                var corp = context.Corps.FirstOrDefault(x => x.CorpId == CorporationDropDownList.SelectedValue.ToInt());
+
+                if (corp != null)
+                {
+                    user.CorpId = corp.CorpId;
+                    user.AllianceId = corp.AllianceId;
+                    user.CorpName = corp.CorpName;
+                    user.AllianceName = corp.AllianceName;
+                }
+            }
+
             if (NewPasswordTextBox.Text.Trim() != string.Empty && NewPasswordTextBox.Text == ConfirmPasswordTextBox.Text)
             {
                 user.Password = FormsAuthentication.HashPasswordForStoringInConfigFile(NewPasswordTextBox.Text, "md5");
@@ -130,7 +170,6 @@ public partial class Authenticated_Admin_EditUser : PageBase
             SetPermission(context, role, AdministratorCheckBox.Checked, "Admin");
 
             context.SubmitChanges();
-
         }
 
         Response.Redirect(PageReferrer.Page_Admin_Users);

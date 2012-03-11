@@ -88,7 +88,21 @@ public partial class Authenticated_Admin_Users : PageBase
         }
         else if (e.CommandName == "DeleteCharacter")
         {
+            using (PlexingFleetDataContext context = new PlexingFleetDataContext(ConnectionString))
+            {
+                int characterId = e.CommandArgument.ToString().ToInt();
+
+                var roles = context.PlexUserRoles.FirstOrDefault(x => x.CharacterId == characterId);
+
+                if (roles != null && roles.Roles.Contains("Super"))
+                    return;
+
+                context.PlexUsers.DeleteOnSubmit(context.PlexUsers.FirstOrDefault(x => x.CharacterId == characterId));
+
+                context.SubmitChanges();
+
+                DoSearch(SearchTextBox.Text);
+            }
         }
     }
-
 }
