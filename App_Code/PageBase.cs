@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
+using System.Web.Security;
 
 /// <summary>
 /// Summary description for PageBase
@@ -39,14 +40,19 @@ public class PageBase : System.Web.UI.Page
     {
         get
         {
-            if (Session["EVE_CHARID"] == null)
+            if (Session["EVE_CHARID"] == null || (int)Session["EVE_CHARID"] == 0)
             {
                 if (EveTrusted)
                 {
                     Session["EVE_CHARID"] = Request.Headers["EVE_CHARID"].ToInt();
                 }
                 else
-                    Session["EVE_CHARID"] = 0;
+                {
+                    //Session has been lost or not logged in propperly
+                    FormsAuthentication.SignOut();
+                    Response.Redirect(PageReferrer.Page_Login);
+                    //Session["EVE_CHARID"] = 0;
+                }
             }
 
             return (int)Session["EVE_CHARID"];
@@ -107,14 +113,19 @@ public class PageBase : System.Web.UI.Page
     {
         get
         {
-            if (Session["EVE_CORPID"] == null)
+            if (Session["EVE_CORPID"] == null || (int)Session["EVE_CORPID"] == 0)
             {
                 if (EveTrusted)
                 {
                     Session["EVE_CORPID"] = Request.Headers["EVE_CORPID"].ToInt();
                 }
                 else
-                    Session["EVE_CORPID"] = 0;
+                {
+                    //Session has been lost or not logged in propperly
+                    FormsAuthentication.SignOut();
+                    Response.Redirect(PageReferrer.Page_Login);
+                    //Session["EVE_CORPID"] = 0;
+                }
             }
 
             return (int)Session["EVE_CORPID"];
@@ -139,6 +150,9 @@ public class PageBase : System.Web.UI.Page
                     Session["EVE_ALLIANCENAME"] = string.Empty;
             }
 
+            if (string.IsNullOrEmpty((string)Session["EVE_ALLIANCENAME"]))
+                Session["EVE_ALLIANCENAME"] = string.Empty;
+
             return (string)Session["EVE_ALLIANCENAME"];
         }
         set
@@ -156,10 +170,13 @@ public class PageBase : System.Web.UI.Page
             {
                 if (EveTrusted)
                 {
-                    Session["EVE_ALLIANCEID"] = Request.Headers["EVE_ALLIANCEID"].ToInt();
+                    if (Request.Headers["EVE_ALLIANCEID"].ToInt() != 0)
+                        Session["EVE_ALLIANCEID"] = Request.Headers["EVE_ALLIANCEID"].ToInt();
+                    else
+                        Session["EVE_ALLIANCEID"] = -1;
                 }
                 else
-                    Session["EVE_ALLIANCEID"] = 0;
+                    Session["EVE_ALLIANCEID"] = -1;
             }
 
             return (int)Session["EVE_ALLIANCEID"];
@@ -205,6 +222,22 @@ public class PageBase : System.Web.UI.Page
         get
         {
             return User.IsInRole("Super");
+        }
+    }
+
+    public bool IsAllianceAdmin
+    {
+        get
+        {
+            return User.IsInRole("Alliance") || IsAdmin || IsSuperAdmin;
+        }
+    }
+
+    public bool IsCorpAdmin
+    {
+        get
+        {
+            return User.IsInRole("Corporation") || IsAllianceAdmin || IsAdmin || IsSuperAdmin;
         }
     }
 

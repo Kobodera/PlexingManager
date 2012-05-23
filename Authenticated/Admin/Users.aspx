@@ -25,7 +25,7 @@
                         <asp:AsyncPostBackTrigger ControlID="SearchTextBox" EventName="TextChanged" />
                     </Triggers>
                     <ContentTemplate>
-                        <div style="height:350px; overflow:auto; vertical-align:top;">
+                        <div style="height:340px; overflow:auto; vertical-align:top;">
                         <asp:GridView ID="UsersGridView" runat="server" Width="100%" AutoGenerateColumns="False"
                             EnableModelValidation="True" OnRowCommand="UsersGridView_RowCommand">
                             <Columns>

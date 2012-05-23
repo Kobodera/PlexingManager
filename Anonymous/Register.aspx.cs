@@ -30,11 +30,21 @@ public partial class Anonymous_Register : PageBase
                                 where p.Id == AllianceId || p.Id == CorpId || p.Id == CharacterId
                                 select p;
 
+
+                    //foreach (var rule in rules)
+                    //{
+                    //    if (rule.Allowed.HasValue && !rule.Allowed.Value)
+                    //    {
+                    //        ShowRegistryInformation(rules.Count() > 0, "You are not part of an alliance, corporation or character that are allowed to register.");
+                    //        return;
+                    //    }
+                    //}
+
                     ShowRegistryInformation(rules.Count() > 0, "You are not part of an alliance, corporation or character that are allowed to register.");
                 }
                 else
                 {
-                    ShowRegistryInformation(false, "You are not part of an alliance, corporation or character that are permitted to register.");
+                    ShowRegistryInformation(false, "You are not using IGB trust. IGB trust is required to register. If you have trusted this site and still can't register try removing trust, close the IGB and try again. For some reason IGB trust fails sometimes for unknown reasons.");
                 }
             }
 

@@ -307,3 +307,8 @@ div.accountInfo
 	width:250;
 	background-color: #202020;
 }
+
+.IE8Fix
+{
+	z-index: 100;
+}

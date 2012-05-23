@@ -182,7 +182,7 @@ public partial class Authenticated_FC_SelectMembers : PageBase
             if (SearchTextBox.Text.Trim() == string.Empty)
             {
                 var users = from u in context.PlexUsers
-                            where u.Enabled
+                            where u.Enabled && ((AllianceId == u.AllianceId && AllianceId != -1) || (CorpId == u.CorpId))
                             orderby u.CharacterName
                             select u;
 
@@ -195,7 +195,7 @@ public partial class Authenticated_FC_SelectMembers : PageBase
             else
             {
                 var users = from u in context.PlexUsers
-                            where u.CharacterName.Contains(SearchTextBox.Text) && (u.Enabled)
+                            where u.CharacterName.Contains(SearchTextBox.Text) && (u.Enabled) && ((AllianceId == u.AllianceId && AllianceId != -1) || (CorpId == u.CorpId))
                             orderby u.CharacterName
                             select u;
 

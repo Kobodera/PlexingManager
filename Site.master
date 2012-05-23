@@ -3,12 +3,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
-    <title>SPLU Plexing Manager 2.0</title>
+    <title>EvE Plexing Manager</title>
     <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body  onload="CCPEVE.requestTrust('http://splu.zapto.org/PlexingManager/')">
+<body  onload="CCPEVE.requestTrust('http://plexing.zapto.org/PlexingManager/')">
     <form runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true">
     </asp:ScriptManager>
@@ -38,7 +39,15 @@
                 </asp:LoginView>
             </div>
             <asp:Panel ID="MenuPanel" runat="server" Visible="true" Width="100%">
-                    <table style="width:100%">
+                <div class="clear hideSkiplink">
+                <asp:Menu ID="MainMenu" runat="server" EnableViewState="false" Orientation="Horizontal" IncludeStyleBlock="false">
+                    <StaticHoverStyle BackColor="#202020" ForeColor="White" />
+                    <StaticMenuItemStyle HorizontalPadding="4px" />
+                    <DynamicHoverStyle BackColor="#202020" ForeColor="White" />
+                    <DynamicMenuItemStyle BackColor="#505050" HorizontalPadding="4px" ForeColor="White" />
+                </asp:Menu>
+            </div>
+<%--                    <table style="width:100%">
                         <tr>
                             <td style="padding-left:8px; width:120px;">
                                 <asp:LinkButton ID="FcLinkButton" runat="server" onclick="FcLinkButton_Click">Fleet Commander</asp:LinkButton>
@@ -61,7 +70,7 @@
                             </td>
                         </tr>
                     </table>
-            </asp:Panel>
+--%>            </asp:Panel>
 <%--            <div class="clear hideSkiplink">
                 <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
                     <Items>

@@ -94,24 +94,43 @@ public partial class Authenticated_FC_Fleet : PageBase
                 PlexInfoDropDownList.Items.Add(new ListItem(plex.Name, plex.PlexId.ToString()));
             }
 
-            var corps = (from c in context.Corps
-                         where c.Enabled
-                         orderby c.CorpName
-                         select c).Distinct();
-
-            foreach (var corp in corps)
+            if (IsAdmin)
             {
-                if (string.IsNullOrEmpty(corp.CorpTag))
-                {
-                    PlexCorpDropDownList.Items.Add(new ListItem(corp.CorpName.Substring(0, 10), corp.CorpId.ToString()));
-                }
-                else
-                {
-                    PlexCorpDropDownList.Items.Add(new ListItem(corp.CorpTag, corp.CorpId.ToString()));
-                }
+                //Display all active corps
+                var corps = (from c in context.Corps
+                             where c.Enabled
+                             orderby c.CorpName
+                             select c).Distinct();
+
+                AddPlexCorps(corps.ToList());
+            }
+            else
+            {
+                //Only display active corps in the alliance
+                var corps = (from c in context.Corps
+                             where c.Enabled && ((c.AllianceId == AllianceId && AllianceId != -1) || c.CorpId == CorpId)
+                             orderby c.CorpName
+                             select c).Distinct();
+
+                AddPlexCorps(corps.ToList());
             }
 
             PlexCorpDropDownList.Items.FindByValue(CorpId.ToString()).Selected = true;
+        }
+    }
+
+    private void AddPlexCorps(List<Corp> corps)
+    {
+        foreach (var corp in corps)
+        {
+            if (string.IsNullOrEmpty(corp.CorpTag))
+            {
+                PlexCorpDropDownList.Items.Add(new ListItem(corp.CorpName.Substring(0, 10), corp.CorpId.ToString()));
+            }
+            else
+            {
+                PlexCorpDropDownList.Items.Add(new ListItem(corp.CorpTag, corp.CorpId.ToString()));
+            }
         }
     }
 
@@ -143,7 +162,7 @@ public partial class Authenticated_FC_Fleet : PageBase
                     join plexUsers in context.PlexUsers on plexes.FCId equals plexUsers.CharacterId
                     join plexInfo in context.PlexInfos on plexes.PlexInfoId equals plexInfo.PlexId
                     join corps in context.Corps on plexes.CorpId equals corps.CorpId
-                    where (IsAdmin && plexes.PlexingDate >= GetCurrentPlexingPeriodDate()) || (plexes.FCId == CharacterId && plexes.PlexingDate >= GetCurrentPlexingPeriodDate())
+                    where (IsAdmin && plexes.PlexingDate >= GetCurrentPlexingPeriodDate()) || (plexes.FCId == CharacterId && plexes.PlexingDate >= GetCurrentPlexingPeriodDate()) || (IsAllianceAdmin && plexes.PlexingDate >= GetCurrentPlexingPeriodDate() && corps.AllianceId == AllianceId) || (IsCorpAdmin && plexes.PlexingDate >= GetCurrentPlexingPeriodDate() && plexes.CorpId == CorpId)
                     orderby plexes.PlexingDate descending
                     select new PlexListInfo() { PlexId = plexes.PlexId, FCName = plexUsers.CharacterName, PlexName = plexInfo.Name, PlexingDate = plexes.PlexingDate.Value, Participants = plexes.Participants, Points = plexInfo.Points, CorpTag = corps.CorpTag };
 

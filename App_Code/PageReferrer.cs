@@ -30,4 +30,6 @@ public class PageReferrer
 
     public static string Page_User_ChangePassword = "~/Authenticated/User/ChangePassword.aspx";
     public static string Page_User_PlexingPeriod = "~/Authenticated/User/PlexingPeriod.aspx";
+
+    public static string Page_Anonymous_AccessRequest = "~/Anonymous/AccessRequest.aspx";
 }

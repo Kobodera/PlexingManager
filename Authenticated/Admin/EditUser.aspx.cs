@@ -8,16 +8,53 @@ using System.Web.Security;
 
 public partial class Authenticated_Admin_EditUser : PageBase
 {
+    private string Origin
+    {
+        get
+        {
+            if (ViewState["Origin"] == null)
+                ViewState["Origin"] = "Orgin";
+
+            return (string)ViewState["Origin"];
+        }
+        set
+        {
+            ViewState["Origin"] = value;
+        }
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
+            if (!string.IsNullOrEmpty(Request.QueryString["Origin"]))
+                Origin = Request.QueryString["Origin"];
+
             if (!string.IsNullOrEmpty(Request.QueryString["CharacterId"]))
             {
-                LoadCharacterInfo(Request.QueryString["CharacterId"].ToInt());
+                var user = GetUser(Request.QueryString["CharacterId"].ToInt());
+                
+                if (IsSuperAdmin ||
+                    IsAdmin ||
+                    IsAllianceAdmin && AllianceId == user.AllianceId && AllianceId != -1 ||
+                    IsCorpAdmin && CorpId == user.CorpId)
+                {
+                    LoadCharacterInfo(Request.QueryString["CharacterId"].ToInt());
+                }
             }
         }
     }
+
+    private PlexUser GetUser(int characterId)
+    {
+        using (PlexingFleetDataContext context = new PlexingFleetDataContext(ConnectionString))
+        {
+            var user = context.PlexUsers.FirstOrDefault(x => x.CharacterId == characterId);
+
+            return user;
+        }
+    }
+
 
     private void LoadCorporationInfo(int corporationId)
     {
@@ -67,7 +104,10 @@ public partial class Authenticated_Admin_EditUser : PageBase
 
             foreach (var permission in userPermissions)
             {
+                SuperAdminCheckBox.Checked = permission.Roles.ToLower().Contains("super");
                 AdministratorCheckBox.Checked = permission.Roles.ToLower().Contains("admin");
+                AllianceCheckBox.Checked = permission.Roles.ToLower().Contains("alliance");
+                CorporationCheckBox.Checked = permission.Roles.ToLower().Contains("corporation");
             }
 
             var plexInfos = from p in context.Plexes
@@ -98,6 +138,10 @@ public partial class Authenticated_Admin_EditUser : PageBase
 
             OccationsLabel.Text = occations.ToString();
 
+            SuperAdminRow.Visible = IsSuperAdmin;
+            AdminRow.Visible = IsSuperAdmin || IsAdmin;
+            AllianceAdminRow.Visible = IsSuperAdmin || IsAdmin || (IsAllianceAdmin && user.AllianceId == AllianceId && AllianceId != -1);
+            CorpAdminRow.Visible = IsSuperAdmin || IsAdmin || (IsAllianceAdmin && user.AllianceId == AllianceId && AllianceId != -1) || (IsCorpAdmin && user.CorpId == CorpId);
         }
     }
 
@@ -167,16 +211,19 @@ public partial class Authenticated_Admin_EditUser : PageBase
 
             PlexUserRole role = context.PlexUserRoles.FirstOrDefault(x => x.CharacterId == CharacterIdLabel.Text.ToInt());
 
+            SetPermission(context, role, SuperAdminCheckBox.Checked, "Super");
             SetPermission(context, role, AdministratorCheckBox.Checked, "Admin");
+            SetPermission(context, role, AllianceCheckBox.Checked, "Alliance");
+            SetPermission(context, role, CorporationCheckBox.Checked, "Corporation");
 
             context.SubmitChanges();
         }
 
-        Response.Redirect(PageReferrer.Page_Admin_Users);
+        Response.Redirect(string.Format("{0}?{1}=1", PageReferrer.Page_Admin_Users, Origin));
     }
 
     protected void CancelLinkButton_Click(object sender, EventArgs e)
     {
-        Response.Redirect(PageReferrer.Page_Admin_Users);
+        Response.Redirect(string.Format("{0}?{1}=1", PageReferrer.Page_Admin_Users, Origin));
     }
 }

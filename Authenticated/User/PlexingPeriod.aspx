@@ -36,7 +36,7 @@
                     <div style="width: 100%; height: 320px; overflow: auto;">
                         <asp:DataList ID="PlexingPeriodsDataList" runat="server" Width="100%">
                             <ItemTemplate>
-                                <asp:LinkButton ID="PlexingPeriodLinkButton" runat="server" Text='<%# GetPlexingPeriod((DateTime?)Eval("FromDate"), (DateTime?)Eval("ToDate")) %>'
+                                <asp:LinkButton ID="PlexingPeriodLinkButton" runat="server" Text='<%# GetPlexingPeriod((DateTime?)Eval("FromDate"), (DateTime?)Eval("ToDate"), Eval("CorpTag").ToString()) %>'
                                     CommandName="DisplayPlexingPeriod" CommandArgument='<%# Eval("PlexingPeriodId") %>'
                                     OnCommand="DisplayPlexingPeriod">LinkButton</asp:LinkButton>
                                 <asp:DataList ID="DateDataList" runat="server" DataSource='<%# Eval("DateInfos") %>'>

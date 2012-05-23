@@ -27,9 +27,35 @@ public partial class Anonymous_Login : PageBase
 
                         if (user.AllianceId != AllianceId || user.CorpId != CorpId)
                         {
-                            //User have switched alliance and/or corp check if new alliance/corp is allowed
+                            Corp corp = context.Corps.FirstOrDefault(x => x.CorpId == CorpId);
 
-                            throw new NotImplementedException("User have switched corp and/or alliance since you registered.");
+                            if (corp == null)
+                                Response.Redirect(PageReferrer.Page_Anonymous_AccessRequest);
+
+                            //If the user have switched alliance and/or corporation update the database with the new information.
+                            user.AllianceId = AllianceId;
+                            user.AllianceName = AllianceName;
+                            user.CorpId = CorpId;
+                            user.CorpName = CorpName;
+
+                            //corp = context.Corps.FirstOrDefault(x => x.CorpId == CorpId);
+                            
+                            //The user have switched to a new corp that have not been registered yet
+                            if (corp == null)
+                            {
+                                corp = new Corp();
+                                corp.CorpId = CorpId;
+                                corp.CorpName = CorpName;
+                                corp.AllianceId = AllianceId;
+                                corp.AllianceName = AllianceName;
+                                corp.CorpTag = CorpName.Length > 5 ? CorpName.Substring(0, 5) : CorpName;
+                                corp.AllianceTag = AllianceName.Length > 5 ? AllianceName.Substring(0, 5) : AllianceName;
+
+                                context.Corps.InsertOnSubmit(corp);
+                            }
+
+
+                            context.SubmitChanges();
                         }
 
                         ShowLogin(true);

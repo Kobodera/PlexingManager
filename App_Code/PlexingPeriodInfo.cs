@@ -8,6 +8,7 @@ using System.Web;
 /// </summary>
 public class PlexingPeriodInfo : IComparable
 {
+    public int PlexingPeriodId { get; set; }
     public int PlexId { get; set; }
     public int? CharacterId { get; set; }
     public string Name { get; set; }

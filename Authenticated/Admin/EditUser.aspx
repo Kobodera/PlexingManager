@@ -92,16 +92,31 @@
                             <asp:Label ID="Label7" runat="server" Text="Permissions"></asp:Label></h3>
                         </td>
                     </tr>
-                    <tr>
+                    <tr id="SuperAdminRow" runat="server">
+                        <td style="width:120px;">
+                            <nobr><asp:CheckBox ID="SuperAdminCheckBox" runat="server" Text="Super Admin" /></nobr>
+                        </td>
+                    </tr>
+                    <tr id="AdminRow" runat="server">
                         <td>
-                        <asp:CheckBox ID="AdministratorCheckBox" runat="server" Text="Administrator" />
+                            <nobr><asp:CheckBox ID="AdministratorCheckBox" runat="server" Text="Admin" /></nobr>
+                        </td>
+                    </tr>
+                    <tr id="AllianceAdminRow" runat="server">
+                        <td>
+                            <nobr><asp:CheckBox ID="AllianceCheckBox" runat="server" Text="Alliance Admin" /></nobr>
+                        </td>
+                    </tr>
+                    <tr id="CorpAdminRow" runat="server">
+                        <td>
+                            <nobr><asp:CheckBox ID="CorporationCheckBox" runat="server" Text="Corp Admin" /></nobr>
                         </td>
                     </tr>
                 </table>
             </td>
             <td style="width:10px;">
             </td>
-            <td style="width:300px;" rowspan="2" valign="top">
+            <td style="width:280px;" rowspan="2" valign="top">
                 <div style="width: 100%; height: 200px; overflow: auto; vertical-align: top;">
                     <table>
                         <tr>

@@ -236,13 +236,21 @@ public partial class Authenticated_Admin_Payout : PageBase
                 }
                 else
                 {
-                    FillPlexingPeriodData(plexingPeriods.First().PlexingPeriodId);
-                    PlexingPeriodId = plexingPeriods.First().PlexingPeriodId;
-                    LastPeriodId = PlexingPeriodId;
+                    var period = plexingPeriods.FirstOrDefault(x => x.CorpId == CorpId);
+                    if (period != null)
+                    {
+                        LoadPlexingPeriodPayoutData(period.PlexingPeriodId);
+                        FillPlexingPeriodData(period.PlexingPeriodId);
+                        PlexingPeriodId = period.PlexingPeriodId;
+                        LastPeriodId = PlexingPeriodId;
+                    }
                 }
             }
-            
-            ShowEndPeriodButton(!context.PlexingPeriods.First(x => x.PlexingPeriodId == PlexingPeriodId).ToDate.HasValue);
+
+            var plexingPeriod = context.PlexingPeriods.FirstOrDefault(x => x.PlexingPeriodId == PlexingPeriodId);
+
+            if (plexingPeriod != null)
+                ShowEndPeriodButton(!plexingPeriod.ToDate.HasValue);
         }
     }
 

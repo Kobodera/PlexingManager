@@ -50,7 +50,7 @@
                                 <asp:TemplateField HeaderText="Name">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="Label1" runat="server" Text='<%# Bind("Name") %>' CommandName="ShowInfo"
-                                            CommandArgument='<%# Bind("Name") %>'></asp:LinkButton>
+                                            CommandArgument='<%# string.Format("{0}|{1}", Eval("PlexingPeriodId"), Eval("Name")) %>'></asp:LinkButton>
                                     </ItemTemplate>
                                     <HeaderStyle HorizontalAlign="Left" />
                                 </asp:TemplateField>

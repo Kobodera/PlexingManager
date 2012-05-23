@@ -8,6 +8,11 @@
         Register user</h2>
     <p>
         Register new user</p>
+    
+    <p>
+        In order to register you must do so through the ingame browser with added trust. When you register you consent that information about your character and your characters 
+        corporation and alliance affiliation will be stored in the Plexing Manager database. 
+        </p>
     <asp:Panel ID="RegisterPanel" runat="server">
         <table>
             <tr>

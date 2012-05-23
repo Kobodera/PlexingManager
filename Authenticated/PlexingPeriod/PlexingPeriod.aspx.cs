@@ -85,22 +85,9 @@ public partial class Authenticated_PlexingPeriod_PlexingPeriod : PageBase
         {
             var plexingPeriods = from p in context.PlexingPeriods
                                  join c in context.Corps on p.CorpId equals c.CorpId
+                                 where (c.AllianceId == AllianceId && c.AllianceId != -1) || c.CorpId == CorpId
                                  orderby p.FromDate descending
                                  select new PlexingPeriodListInfo() { PlexingPeriodId = p.PlexingPeriodId, FromDate = p.FromDate, ToDate = p.ToDate, CorpId = p.CorpId, CorpTag = c.CorpTag};
-
-            //List<PlexingPeriodListInfo> periods = new List<PlexingPeriodListInfo>();
-            //foreach (var period in plexingPeriods)
-            //{
-            //    if (IsAdmin)
-            //    {
-            //        periods.Add(period);
-            //    }
-            //    else
-            //    {
-            //        if (period.CorpId == CorpId)
-            //            periods.Add(periodId
-            //    }
-            //}
 
             List<PlexingPeriodListInfo> periods = plexingPeriods.ToList<PlexingPeriodListInfo>();
 
@@ -189,7 +176,7 @@ public partial class Authenticated_PlexingPeriod_PlexingPeriod : PageBase
             var plexPointinfos = from p in context.Plexes
                                  join pi in context.PlexInfos on p.PlexInfoId equals pi.PlexId
                                  where p.PlexingPeriodId == plexingPeriodId
-                                 select new { p.PlexId, p.Participants, pi.Points };
+                                 select new { p.PlexingPeriodId, p.PlexId, p.Participants, pi.Points };
 
             Dictionary<string, PlexingPeriodInfo> dict = new Dictionary<string, PlexingPeriodInfo>();
 
@@ -213,7 +200,7 @@ public partial class Authenticated_PlexingPeriod_PlexingPeriod : PageBase
                     }
                     else
                     {
-                        dict.Add(pilot.Trim(), new PlexingPeriodInfo() { PlexId = plexPointInfo.PlexId, Name = pilot.Trim(), Plexes = 1, Points = pilotPoints, Payout = ((IskPerPointAfterTax.HasValue ? IskPerPointAfterTax.Value : 0) / 1000000) * pilotPoints });
+                        dict.Add(pilot.Trim(), new PlexingPeriodInfo() { PlexingPeriodId = plexPointInfo.PlexingPeriodId, PlexId = plexPointInfo.PlexId, Name = pilot.Trim(), Plexes = 1, Points = pilotPoints, Payout = ((IskPerPointAfterTax.HasValue ? IskPerPointAfterTax.Value : 0) / 1000000) * pilotPoints });
                     }
                 }
             }
@@ -228,7 +215,8 @@ public partial class Authenticated_PlexingPeriod_PlexingPeriod : PageBase
     {
         if (e.CommandName == "ShowInfo")
         {
-            Response.Redirect(string.Format("{0}?PlexingPeriodId={1}&CharacterName={2}", PageReferrer.Page_User_PlexingPeriod, PlexingPeriodId.Value, e.CommandArgument.ToString()));
+            string[] args = e.CommandArgument.ToString().Split('|');
+            Response.Redirect(string.Format("{0}?PlexingPeriodId={1}&CharacterName={2}", PageReferrer.Page_User_PlexingPeriod, args[0], args[1]));
         }
     }
 
@@ -283,7 +271,7 @@ public partial class Authenticated_PlexingPeriod_PlexingPeriod : PageBase
             var plexPointinfos = from p in context.Plexes
                                  join pi in context.PlexInfos on p.PlexInfoId equals pi.PlexId
                                  where p.PlexingPeriodId == plexingPeriodId && p.PlexingDate >= date && p.PlexingDate <= lastDate
-                                 select new { p.PlexId, p.Participants, pi.Points };
+                                 select new { p.PlexingPeriodId, p.PlexId, p.Participants, pi.Points };
 
             Dictionary<string, PlexingPeriodInfo> dict = new Dictionary<string, PlexingPeriodInfo>();
 
